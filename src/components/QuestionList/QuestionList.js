@@ -56,6 +56,10 @@ function QuestionList(props) {
 		});
 	};
 
+	const handleFinishClick = () => {
+		console.log(JSON.stringify(Array.from(answers.entries())));
+	};
+
 	const questionsList = questions.map(question => {
 		return (
 			<Question
@@ -63,26 +67,33 @@ function QuestionList(props) {
 				selectedAnswer={
 					answers.get(question._id)
 						? answers.get(question._id)
-						: question.answers[0].value
+						: question.answers[0]._id
 				}
 				setAnswers={setAnswers}
 			/>
 		);
 	});
 
-	console.log(answers);
+	let navigation = null;
 
-	return (
-		<Paper className={classes.root} square={true}>
-			{questionsList[index]}
+	if (questionsList.length) {
+		navigation = (
 			<Nav
 				onNext={handleNextClick}
 				onPrev={handlePrevClick}
+				onFinish={handleFinishClick}
 				className={classes.nav}
 				isFinished={isFinished}
 				isPrevDisabled={isPrevDisabled}
 				isNextDisabled={isNextDisabled}
 			/>
+		);
+	}
+
+	return (
+		<Paper className={classes.root} square={true}>
+			{questionsList[index]}
+			{navigation}
 		</Paper>
 	);
 }

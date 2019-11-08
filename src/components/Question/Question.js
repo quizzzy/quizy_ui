@@ -12,7 +12,7 @@ function Question(props) {
 	const handleChange = event => {
 		setAnswers(prevAnswers => {
 			const newAnswers = new Map([...prevAnswers]);
-			newAnswers.set(question._id, +event.target.value);
+			newAnswers.set(question._id, event.target.value);
 
 			return newAnswers;
 		});
@@ -25,8 +25,8 @@ function Question(props) {
 				control={
 					<Radio
 						color="primary"
-						checked={selectedAnswer === answer.value}
-						value={answer.value}
+						checked={selectedAnswer === answer._id}
+						value={answer._id}
 						onChange={handleChange}
 						name={`answer${question._id}`}
 					/>

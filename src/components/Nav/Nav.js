@@ -36,6 +36,7 @@ function Nav(props) {
 				}}
 				color="primary"
 				className={classes.ml}
+				onClick={props.onFinish}
 			>
 				Finish
 			</Button>
