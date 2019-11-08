@@ -7,28 +7,28 @@ import {
 } from '@material-ui/core';
 
 function Question(props) {
-	// debugger;
-	const { question } = props;
+	const { question, selectedAnswer, setAnswers } = props;
 
 	const handleChange = event => {
-		props.updateState(prevState => {
-			const newState = [...prevState];
-			newState[props.index].value = +event.target.value;
-			return newState;
+		setAnswers(prevAnswers => {
+			const newAnswers = new Map([...prevAnswers]);
+			newAnswers.set(question._id, +event.target.value);
+
+			return newAnswers;
 		});
 	};
 
 	const radioButtons = question.answers.map(answer => {
 		return (
 			<FormControlLabel
-				key={answer.id}
+				key={answer._id}
 				control={
 					<Radio
 						color="primary"
-						checked={props.answer.value === answer.value}
+						checked={selectedAnswer === answer.value}
 						value={answer.value}
 						onChange={handleChange}
-						name={`answer${question.id}`}
+						name={`answer${question._id}`}
 					/>
 				}
 				label={answer.description}
@@ -38,7 +38,7 @@ function Question(props) {
 
 	return (
 		<div>
-			<Typography variant="h5">{props.question.title}</Typography>
+			<Typography variant="h5">{props.question.description}</Typography>
 			<FormControl component="fieldset">{radioButtons}</FormControl>
 		</div>
 	);

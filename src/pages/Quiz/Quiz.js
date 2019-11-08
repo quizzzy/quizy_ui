@@ -1,14 +1,31 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import QuestionList from '../../components/QuestionList';
 import Bar from '../../components/Bar';
 
 function Quiz() {
+	const [questions, setQuestions] = useState([]);
+
+	useEffect(() => {
+		async function fetchQuestions(url) {
+			const response = await fetch(url);
+
+			try {
+				const questions = await response.json();
+				setQuestions(questions);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+		fetchQuestions('http://localhost:3000/api/questions');
+	}, []);
+
 	return (
 		<Fragment>
 			<Bar />
 			<Container fixed={true} maxWidth="lg" spacing={1}>
-				<QuestionList />
+				<QuestionList questions={questions} />
 			</Container>
 		</Fragment>
 	);

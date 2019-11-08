@@ -3,7 +3,6 @@ import Question from '../Question';
 import Nav from '../../components/Nav';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { questions } from '../../mockedInput';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -15,12 +14,12 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-function QuestionList() {
+function QuestionList(props) {
+	const { questions } = props;
+
 	const classes = useStyles();
-
-	// const [questionsState] = useState(questions);
 	const [index, setIndexState] = useState(0);
-
+	const [answers, setAnswers] = useState(new Map());
 	const [isFinished, setFinished] = useState(false);
 	const [isPrevDisabled, setPrevDisbaled] = useState(true);
 	const [isNextDisabled, setNextDisabled] = useState(false);
@@ -50,32 +49,28 @@ function QuestionList() {
 				setFinished(false);
 			}
 
-			if (nextIndex == 0) {
+			if (nextIndex === 0) {
 				setPrevDisbaled(true);
 			}
 			return nextIndex;
 		});
 	};
 
-	const answers = questions.map(question => ({
-		id: question.id,
-		value: question.answers[0].value,
-	}));
-
-	const [answersState, setAnswers] = useState(answers);
-
-	const questionsList = questions.map((question, index) => {
+	const questionsList = questions.map(question => {
 		return (
 			<Question
 				question={question}
-				answer={answersState[index]}
-				index={index}
-				updateState={setAnswers}
+				selectedAnswer={
+					answers.get(question._id)
+						? answers.get(question._id)
+						: question.answers[0].value
+				}
+				setAnswers={setAnswers}
 			/>
 		);
 	});
 
-	console.log(answersState);
+	console.log(answers);
 
 	return (
 		<Paper className={classes.root} square={true}>
