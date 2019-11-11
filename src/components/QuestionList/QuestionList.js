@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import Question from '../Question';
 import Nav from '../../components/Nav';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { APP_URI } from '../../constants/app';
+import Scales from '../Scales';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -21,6 +23,8 @@ function QuestionList(props) {
 	const [index, setIndexState] = useState(0);
 	const [answers, setAnswers] = useState(new Map());
 	const [isFinished, setFinished] = useState(false);
+	const [isScalesCalculated, setScalesFinished] = useState(false);
+	const [scalesState, setScales] = useState([]);
 	const [isPrevDisabled, setPrevDisbaled] = useState(true);
 	const [isNextDisabled, setNextDisabled] = useState(false);
 
@@ -57,7 +61,32 @@ function QuestionList(props) {
 	};
 
 	const handleFinishClick = () => {
-		console.log(JSON.stringify(Array.from(answers.entries())));
+		const profile = {
+			questions: [],
+		};
+
+		for (const [questionId, answerId] of answers) {
+			profile.questions.push({
+				questionId,
+				answerId,
+			});
+		}
+
+		function calculateProfile(url) {
+			return fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json;charset=utf-8',
+				},
+				body: JSON.stringify(profile),
+			}).then(response => response.json());
+		}
+
+		calculateProfile(`${APP_URI}/api/profiles`).then(data => {
+			console.log(data);
+			setScalesFinished(true);
+			setScales(data);
+		});
 	};
 
 	const questionsList = questions.map(question => {
@@ -65,9 +94,7 @@ function QuestionList(props) {
 			<Question
 				question={question}
 				selectedAnswer={
-					answers.get(question._id)
-						? answers.get(question._id)
-						: question.answers[0]._id
+					answers.get(question._id) ? answers.get(question._id) : ''
 				}
 				setAnswers={setAnswers}
 			/>
@@ -90,11 +117,18 @@ function QuestionList(props) {
 		);
 	}
 
+	const quiz = (
+		<Fragment>
+			<Paper className={classes.root} square={true}>
+				{questionsList[index]}
+				{navigation}
+			</Paper>
+		</Fragment>
+	);
 	return (
-		<Paper className={classes.root} square={true}>
-			{questionsList[index]}
-			{navigation}
-		</Paper>
+		<Fragment>
+			{isScalesCalculated ? <Scales scales={scalesState} /> : quiz}
+		</Fragment>
 	);
 }
 
