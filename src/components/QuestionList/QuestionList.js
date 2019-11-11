@@ -4,7 +4,7 @@ import Nav from '../../components/Nav';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { APP_URI } from '../../constants/app';
-import Scales from '../Scales';
+import ScaleList from '../ScaleList';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -127,7 +127,7 @@ function QuestionList(props) {
 	);
 	return (
 		<Fragment>
-			{isScalesCalculated ? <Scales scales={scalesState} /> : quiz}
+			{isScalesCalculated ? <ScaleList scales={scalesState} /> : quiz}
 		</Fragment>
 	);
 }
