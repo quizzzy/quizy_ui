@@ -1,7 +1,8 @@
 import React from 'react';
 import Scale from '../Scale';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { APP_URI } from '../../constants/app';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ScaleList(props) {
-	const { scales } = props;
+	const { scales, profileId } = props;
 	const classes = useStyles();
 
 	return (
@@ -23,6 +24,15 @@ function ScaleList(props) {
 						</Grid>
 					);
 				})}
+				<Grid item xs={12}>
+					<Button
+						variant="contained"
+						href={`${APP_URI}/api/profiles/${profileId}?format=document`}
+						target="_blank"
+					>
+						Завантажити PDF
+					</Button>
+				</Grid>
 			</Grid>
 		</div>
 	);

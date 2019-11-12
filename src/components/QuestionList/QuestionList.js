@@ -25,6 +25,7 @@ function QuestionList(props) {
 	const [isFinished, setFinished] = useState(false);
 	const [isScalesCalculated, setScalesFinished] = useState(false);
 	const [scalesState, setScales] = useState([]);
+	const [profileId, setProfileId] = useState('');
 	const [isPrevDisabled, setPrevDisbaled] = useState(true);
 	const [isNextDisabled, setNextDisabled] = useState(false);
 
@@ -83,9 +84,9 @@ function QuestionList(props) {
 		}
 
 		calculateProfile(`${APP_URI}/api/profiles`).then(data => {
-			console.log(data);
 			setScalesFinished(true);
-			setScales(data);
+			setScales(data.scales);
+			setProfileId(data.id);
 		});
 	};
 
@@ -127,7 +128,11 @@ function QuestionList(props) {
 	);
 	return (
 		<Fragment>
-			{isScalesCalculated ? <ScaleList scales={scalesState} /> : quiz}
+			{isScalesCalculated ? (
+				<ScaleList profileId={profileId} scales={scalesState} />
+			) : (
+				quiz
+			)}
 		</Fragment>
 	);
 }
