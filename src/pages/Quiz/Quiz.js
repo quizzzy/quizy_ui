@@ -25,7 +25,7 @@ function Quiz() {
 	return (
 		<Fragment>
 			<Bar />
-			<Container fixed={true} maxWidth="lg" spacing={1}>
+			<Container fixed={true} maxWidth="md" spacing={1}>
 				<QuestionList questions={questions} />
 			</Container>
 		</Fragment>

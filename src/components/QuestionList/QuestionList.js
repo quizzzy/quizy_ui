@@ -45,6 +45,11 @@ function QuestionList(props) {
 		} else {
 			setAnswers(new Map(JSON.parse(localStorage.getItem('answers'))));
 		}
+
+		const savedIndex = localStorage.getItem('index');
+		if (savedIndex) {
+			setIndexState(savedIndex);
+		}
 	}, [questions]);
 
 	const handleNextClick = () => {
@@ -59,6 +64,8 @@ function QuestionList(props) {
 				setNextDisabled(true);
 				setFinished(true);
 			}
+
+			localStorage.setItem('index', nextIndex);
 
 			return nextIndex;
 		});
@@ -75,6 +82,8 @@ function QuestionList(props) {
 			if (nextIndex === 0) {
 				setPrevDisbaled(true);
 			}
+
+			localStorage.setItem('index', nextIndex);
 			return nextIndex;
 		});
 	};
