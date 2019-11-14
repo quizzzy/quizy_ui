@@ -48,7 +48,7 @@ function QuestionList(props) {
 
 		const savedIndex = localStorage.getItem('index');
 		if (savedIndex) {
-			setIndexState(savedIndex);
+			setIndexState(+savedIndex);
 		}
 	}, [questions]);
 
@@ -112,6 +112,7 @@ function QuestionList(props) {
 
 		calculateProfile(`${APP_URI}/api/profiles`).then(data => {
 			localStorage.removeItem('answers');
+			localStorage.removeItem('index');
 			setScalesFinished(true);
 			setScales(data.scales);
 			setProfileId(data.id);

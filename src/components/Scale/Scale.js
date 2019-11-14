@@ -57,7 +57,7 @@ function Scale(props) {
 			>
 				{scale.categories.map(category => {
 					return (
-						<Grid item xs={6} key={category.title}>
+						<Grid item xs={12} md={6} key={category.title}>
 							<Box className={classes.categoryBox}>
 								<BookmarkIcon />
 								<Typography variant="h6">{category.title}</Typography>

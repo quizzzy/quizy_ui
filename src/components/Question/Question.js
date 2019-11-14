@@ -4,10 +4,12 @@ import {
 	FormControl,
 	Radio,
 	FormControlLabel,
+	useMediaQuery,
 } from '@material-ui/core';
 
 function Question(props) {
 	const { question, selectedAnswer, setAnswers } = props;
+	const matches = useMediaQuery('(max-width:600px)');
 
 	const handleChange = event => {
 		setAnswers(prevAnswers => {
@@ -40,7 +42,9 @@ function Question(props) {
 
 	return (
 		<div>
-			<Typography variant="h5">{props.question.description}</Typography>
+			<Typography variant={matches ? 'h6' : 'h5'}>
+				{props.question.description}
+			</Typography>
 			<FormControl component="fieldset">{radioButtons}</FormControl>
 		</div>
 	);
