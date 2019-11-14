@@ -43,7 +43,6 @@ function QuestionList(props) {
 				});
 			});
 		} else {
-			throw new Error('err');
 			setAnswers(new Map(JSON.parse(localStorage.getItem('answers'))));
 		}
 
