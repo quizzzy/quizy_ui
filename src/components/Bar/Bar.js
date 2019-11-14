@@ -1,11 +1,17 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import logo from '../../logo-root.svg';
 
 const useStyles = makeStyles(() => ({
 	toolbar: {
 		minHeight: '45px',
 		boxShadow: '0 0 5px 0 rgba(0,0,0, .1)',
+		background: '#000',
+	},
+	image: {
+		width: '100%',
+		maxWidth: '120px',
 	},
 }));
 
@@ -15,9 +21,7 @@ function Bar() {
 	return (
 		<AppBar position="static">
 			<Toolbar className={classes.toolbar}>
-				<Typography variant="subtitle1">
-					Апка, що зробить вас щасливим
-				</Typography>
+				<img src={logo} className={classes.image} alt="SoftServe logo" />
 			</Toolbar>
 		</AppBar>
 	);

@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import QuestionList from '../../components/QuestionList';
 import Bar from '../../components/Bar';
+import { APP_URI } from '../../constants/app';
 
 function Quiz() {
 	const [questions, setQuestions] = useState([]);
@@ -18,7 +19,7 @@ function Quiz() {
 			}
 		}
 
-		fetchQuestions('http://localhost:3000/api/questions');
+		fetchQuestions(`${APP_URI}/api/questions`);
 	}, []);
 
 	return (

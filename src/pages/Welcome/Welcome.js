@@ -16,6 +16,10 @@ const useStyles = makeStyles(() => ({
 	},
 	button: {
 		marginTop: '20px',
+		background: '#2b2b2b',
+		'&:hover': {
+			background: '#000',
+		},
 	},
 	link: {
 		textDecoration: 'none',

@@ -3,8 +3,12 @@ import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
-	ml: {
+	button: {
 		marginLeft: '15px',
+		background: '#2b2b2b',
+		'&:hover': {
+			background: '#000',
+		},
 	},
 }));
 
@@ -23,7 +27,7 @@ function Nav(props) {
 			<Button
 				variant="contained"
 				color="primary"
-				className={classes.ml}
+				className={classes.button}
 				onClick={props.onNext}
 				disabled={props.isNextDisabled}
 			>
@@ -35,7 +39,7 @@ function Nav(props) {
 					display: `${props.isFinished ? 'inline-flex' : 'none'}`,
 				}}
 				color="primary"
-				className={classes.ml}
+				className={classes.button}
 				onClick={props.onFinish}
 			>
 				Finish

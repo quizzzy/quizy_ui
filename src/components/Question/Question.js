@@ -13,7 +13,10 @@ function Question(props) {
 		setAnswers(prevAnswers => {
 			const newAnswers = new Map([...prevAnswers]);
 			newAnswers.set(question._id, event.target.value);
-
+			localStorage.setItem(
+				'answers',
+				JSON.stringify(Array.from(newAnswers.entries()))
+			);
 			return newAnswers;
 		});
 	};
@@ -24,7 +27,6 @@ function Question(props) {
 				key={answer._id}
 				control={
 					<Radio
-						color="primary"
 						checked={selectedAnswer === answer._id}
 						value={answer._id}
 						onChange={handleChange}

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import Question from '../Question';
 import Nav from '../../components/Nav';
 import { Paper } from '@material-ui/core';
@@ -28,6 +28,24 @@ function QuestionList(props) {
 	const [profileId, setProfileId] = useState('');
 	const [isPrevDisabled, setPrevDisbaled] = useState(true);
 	const [isNextDisabled, setNextDisabled] = useState(false);
+
+	useEffect(() => {
+		if (!localStorage.getItem('answers')) {
+			questions.forEach(question => {
+				setAnswers(prevAnswers => {
+					const newAnswers = new Map([...prevAnswers]);
+					newAnswers.set(question._id, question.answers[0]._id);
+					localStorage.setItem(
+						'answers',
+						JSON.stringify(Array.from(newAnswers.entries()))
+					);
+					return newAnswers;
+				});
+			});
+		} else {
+			setAnswers(new Map(JSON.parse(localStorage.getItem('answers'))));
+		}
+	}, [questions]);
 
 	const handleNextClick = () => {
 		setIndexState(prevIndex => {
@@ -84,6 +102,7 @@ function QuestionList(props) {
 		}
 
 		calculateProfile(`${APP_URI}/api/profiles`).then(data => {
+			localStorage.removeItem('answers');
 			setScalesFinished(true);
 			setScales(data.scales);
 			setProfileId(data.id);
@@ -91,13 +110,15 @@ function QuestionList(props) {
 	};
 
 	const questionsList = questions.map(question => {
+		const savedAnswer = new Map(
+			JSON.parse(localStorage.getItem('answers'))
+		).get(question._id);
 		return (
 			<Question
 				question={question}
-				selectedAnswer={
-					answers.get(question._id) ? answers.get(question._id) : ''
-				}
+				selectedAnswer={savedAnswer ? savedAnswer : answers.get(question._id)}
 				setAnswers={setAnswers}
+				setNextDisabled={setNextDisabled}
 			/>
 		);
 	});
