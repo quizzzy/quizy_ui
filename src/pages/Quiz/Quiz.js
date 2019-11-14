@@ -1,8 +1,9 @@
+import { withErrorBoundary } from '../../components/ErrorBoundary';
 import React, { Fragment, useState, useEffect } from 'react';
-import { Container } from '@material-ui/core';
 import QuestionList from '../../components/QuestionList';
-import Bar from '../../components/Bar';
+import { Container } from '@material-ui/core';
 import { APP_URI } from '../../constants/app';
+import Bar from '../../components/Bar';
 
 function Quiz() {
 	const [questions, setQuestions] = useState([]);
@@ -32,4 +33,4 @@ function Quiz() {
 	);
 }
 
-export default Quiz;
+export default withErrorBoundary(Quiz);

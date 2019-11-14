@@ -43,12 +43,16 @@ function QuestionList(props) {
 				});
 			});
 		} else {
+			throw new Error('err');
 			setAnswers(new Map(JSON.parse(localStorage.getItem('answers'))));
 		}
 
-		const savedIndex = localStorage.getItem('index');
+		const savedIndex = +localStorage.getItem('index');
 		if (savedIndex) {
-			setIndexState(+savedIndex);
+			if (savedIndex > 0) {
+				setPrevDisbaled(false);
+			}
+			setIndexState(savedIndex);
 		}
 	}, [questions]);
 
